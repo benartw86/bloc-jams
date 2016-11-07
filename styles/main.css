@@ -51,7 +51,7 @@ html {
          padding-right: 1rem;
      }
      
-          .column.full { width: 100%; }
+     .column.full { width: 100%; }
      .column.two-thirds { width: 66.7%; }
      .column.half { width: 50%; }
      .column.third { width: 33.3%; }
@@ -59,3 +59,12 @@ html {
      .column.flow-opposite { float: right; }  
  }
  
+.clearfix::before,
+.clearfix::after {
+   content: " ";
+   display: table;
+}
+
+.clearfix::after {
+   clear: both;
+}
