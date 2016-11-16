@@ -1,6 +1,6 @@
 var pointsArray = document.getElementsByClassName('point');   //establish node list
 
-var revealPoint = function(index) {  
+var revealPoint = function(point) {  
                 point.style.opacity = .5;
                 point.style.transform = "scaleX(1) translateY(0)";
                 point.style.msTransform = "scaleX(1) translateY(0)";
@@ -12,7 +12,6 @@ var animatePoints = function(points) {
                
             forEach(points, revealPoint);  //points is paramater of animatePoints  which will use revealPoint as callback to animate since it    
         
-        }
 };
 
 
