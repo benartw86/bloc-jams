@@ -1,6 +1,7 @@
-var animatePoints = function() {
+var points = document.getElementsByClassName('point');
+
+var animatePoints = function(points) {
     
-    var points = document.getElementsByClassName('point');
     
     for (var i = 0; i < points.length; i++) {
         
@@ -15,4 +16,18 @@ var animatePoints = function() {
 };
 
 
-
+ window.onload = function() {
+     var sellingPoints = document.getElementsByClassName('selling-points')[0];
+     var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;
+     
+     
+     window.addEventListener("scroll", function(event) { //listener, event, handler
+         if (document.documentElement.scrollTop || document.body.scrollTop >= scrollDistance) {
+             animatePoints(points);   
+         }
+     });
+ }
+ 
+ 
+ 
+ //the listener is activated by the event which also triggers the event
