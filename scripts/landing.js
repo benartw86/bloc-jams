@@ -1,9 +1,19 @@
-var points = document.getElementsByClassName('point');
+var points = document.getElementsByClassName('point');   //establish node list
 
-var animatePoints = function(points) {
+var animatePoints = function(points) {  
+                 
+                points.style.opacity = .5;
+                points.style.transform = "scaleX(1) translateY(0)";
+                points.style.msTransform = "scaleX(1) translateY(0)";
+                points.style.WebkitTransform = "scaleX(1) translateY(0)";
+        }
+        
+        points.forEach(animatePoints); //use forEach block, callback animate points
+};
+
+ 
     
-    
-    for (var i = 0; i < points.length; i++) {
+/*    for (var i = 0; i < points.length; i++) {
         
                 points[i].style.opacity = .5;
                 points[i].style.transform = "scaleX(1) translateY(0)";
@@ -13,13 +23,13 @@ var animatePoints = function(points) {
         }
         
     
-};
-
+};  */
+ 
 
  window.onload = function() {
      
       if (window.innerHeight > 950) {
-         animatePoints(pointsArray);
+         animatePoints(points);
      }
      
      var sellingPoints = document.getElementsByClassName('selling-points')[0];
