@@ -30,6 +30,24 @@
      ]
  };
 
+// My example album
+
+var albumBeatles = {
+    title: 'Hits',
+    artist: 'Beatles',
+    label: 'BS',
+    year: '1969',
+    albumArtUrl: 'assets/images/album_covers/20.png',
+    songs: [
+         { title: 'Piggies', duration: '2:01' },
+         { title: 'Taxman', duration: '5:01' },
+         { title: 'Across the Universe', duration: '3:21'},
+         { title: 'She Loves Me', duration: '5:14' },
+         { title: 'Yellow Submarine', duration: '4:15'},
+         { title: 'Here Comes the Sun', duration: '3:15'}
+     ]
+ };
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -66,5 +84,22 @@ var setCurrentAlbum = function(album) {
  };
  
  window.onload = function() {
-     setCurrentAlbum(albumPicasso);
+     setCurrentAlbum(albumBeatles);
  };
+
+
+//establish array with albums in order to iterate through the album list when the album is clicked on 
+
+function albumToggle() {
+    var albumArray =[albumPicasso, albumMarconi, albumBeatles];  
+    for (var i = 0; i < albumArray.length; i++) {
+    }
+};
+
+
+//store the album cover art class in the variable to be used with event listener
+
+window.addEventListener('click', albumToggle);  
+
+
+//setting an event listener on the album property of the setCurrentAlbum object
