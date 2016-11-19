@@ -4,7 +4,7 @@
      artist: 'Pablo Picasso',
      label: 'Cubism',
      year: '1881',
-     albumArtUrl: 'assets/images/album_covers/01.png',
+     albumArtUrl: 'assets/images/album_covers/19.png',
      songs: [
          { title: 'Blue', duration: '4:26' },
          { title: 'Green', duration: '3:14' },
@@ -37,7 +37,7 @@ var albumBeatles = {
     artist: 'Beatles',
     label: 'BS',
     year: '1969',
-    albumArtUrl: 'assets/images/album_covers/20.png',
+    albumArtUrl: 'assets/images/album_covers/01.png',
     songs: [
          { title: 'Piggies', duration: '2:01' },
          { title: 'Taxman', duration: '5:01' },
@@ -60,14 +60,16 @@ var createSongRow = function(songNumber, songName, songLength) {
      return template;
  };
 
-var setCurrentAlbum = function(album) {
-     // #1
-     var albumTitle = document.getElementsByClassName('album-view-title')[0];
+// #1 pull variables out of function to get them in global scope, able to access //albumImage for listenere now.
+    
+ var albumTitle = document.getElementsByClassName('album-view-title')[0];
      var albumArtist = document.getElementsByClassName('album-view-artist')[0];
      var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
      var albumImage = document.getElementsByClassName('album-cover-art')[0];
      var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
- 
+
+var setCurrentAlbum = function(album) {
+
      // #2
      albumTitle.firstChild.nodeValue = album.title;
      albumArtist.firstChild.nodeValue = album.artist;
@@ -84,22 +86,20 @@ var setCurrentAlbum = function(album) {
  };
  
  window.onload = function() {
-     setCurrentAlbum(albumBeatles);
- };
+     setCurrentAlbum(albumPicasso);
+     var albums = [albumPicasso, albumMarconi, albumBeatles];
+             var index = 0; //start at first album outside function so that this value remains changed after function runs, if it is inside the function it will be reset each time the function is run
+ 
+     albumImage.addEventListener('click', function(event) {
+            setCurrentAlbum(albums[index]);
+            index++;  //cycle through albums
+            if (index == albums.length) { 
+                index = 0; //once all albums cycled revert to first
+            }
 
-
-//establish array with albums in order to iterate through the album list when the album is clicked on 
-
-function albumToggle() {
-    var albumArray =[albumPicasso, albumMarconi, albumBeatles];  
-    for (var i = 0; i < albumArray.length; i++) {
-    }
+        });
 };
 
-
-//store the album cover art class in the variable to be used with event listener
-
-window.addEventListener('click', albumToggle);  
 
 
 //setting an event listener on the album property of the setCurrentAlbum object
