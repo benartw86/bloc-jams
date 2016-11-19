@@ -33,7 +33,8 @@
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
-      + '  <td class="song-item-number">' + songNumber + '</td>'
+      + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
+            //To revert the play button back to the song's number, we need to store the number before the user gets a chance to mouse over the row. Use HTML5 data attributes. HTML data attributes allow us to store information in an attribute on an HTML element.
       + '  <td class="song-item-title">' + songName + '</td>'
       + '  <td class="song-item-duration">' + songLength + '</td>'
       + '</tr>'
@@ -64,7 +65,37 @@ var setCurrentAlbum = function(album) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
  };
- 
+
+
+
+var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+var songRows = document.getElementsByClassName('album-view-song-item');
+var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
- };
+
+
+songListContainer.addEventListener('mouseover', function(event) {
+    // console.log(event.target);
+             // Only target individual song rows during event delegation
+    if (event.target.parentElement.className === 'album-view-song-item') {
+             // Change the content from the number to the play button's HTML
+        event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+    }
+});             
+
+// We use the querySelector() method because we only need to return a single element with the .song-item-number class.
+
+//The target property on the event object stores the DOM element                      where the event occurred.
+
+ for (var i = 0; i < songRows.length; i++) {
+         songRows[i].addEventListener('mouseleave', function(event) {
+             // Revert the content back to the number
+              // Selects first child element, which is the song-item-number element and makes it equal to the original value that is stored with datasongnumber
+        this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+         });            
+     }
+
+ }
+                                   
