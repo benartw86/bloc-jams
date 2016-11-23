@@ -69,14 +69,20 @@ var setCurrentAlbum = function(album) {
 var findParentByClassName = function(element, targetClass) { 
     if (element) {
     var currentParent = element.parentElement;       //grab the parentElement of element
-    while(currentParent.className != targetClass && currentParent.className !== null) {  // while the className isn't the target we are looking for and the className isn't                                                                                             returning null, move up the DOM getting the parentElement of each subsequent element.
+    while(currentParent.className != targetClass && currentParent.className !== null) {  // while the className isn't the target we are looking for and the className isn't                                                                                               returning null, move up the DOM getting the parentElement of each subsequent element.
+    if (currentParent === null) {
+        return alert("No parent found");    
+        
+  } else if (currentParent != targetClass) {
+            return alert("No parent found with that class name")  
+  }  
         currentParent = currentParent.parentElement;   
-    }
+}
   return currentParent;    // if the element remaining when exiting the while loop is null, you traversed the document and found nothing. If it is something other than null, you found the element with the target className.
  }
 };
 
-var getSongItem = function (element) {   //establish function with switch 
+var getSongItem = function (element) {   //establish function with switch, what is the purpose of this function
     switch(element.className){ 
         case 'album-song-button':
         case 'ion-play':
