@@ -30,7 +30,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
 	       if (currentlyPlayingSongNumber !== null) {
 		  // Revert to song number for currently playing song because user started playing new song.
-                var currentlyPlayingCell = getSongNumberCell();
+                var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
 		        currentlyPlayingCell.html(currentlyPlayingSongNumber);
 	      }
 	       if (currentlyPlayingSongNumber !== songNumber) {
