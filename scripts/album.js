@@ -23,12 +23,9 @@ var setSong = function(songNumber) {
    };
 
 
-
-
-
 var getSongNumberCell = function(number) {
     return $('.song-item-number[data-song-number="'+number+'"]')
-};
+};  
 
 
 
@@ -66,11 +63,11 @@ var createSongRow = function(songNumber, songName, songLength) {
 		        if(currentSoundFile.isPaused()) {
                    $(this).html(pauseButtonTemplate);
                    $('.main-controls .play-pause').html(playerBarPauseButton);
-                   currentSoundFile.play;
+                   currentSoundFile.play();
                 } else {
                    $(this).html(playButtonTemplate); 
                    $('.main-controls .play-pause').html(playerBarPlayButton);  
-                   currentSoundFile.pause;
+                   currentSoundFile.pause();
                 }
 	       }
       };
@@ -211,6 +208,32 @@ var previousSong = function() {
         
     };
 
+//Write a function so that users can play and pause a song from the bar, as shown in the demo above. The function should be named togglePlayFromPlayerBar(), take no arguments, and have the following behavior:
+
+/*If a song is paused and the play button is clicked in the player bar, it will
+        Change the song number cell from a play button to a pause button
+        Change the HTML of the player bar's play button to a pause button
+        Play the song
+   If the song is playing (so a current sound file exist), and the pause button is clicked
+        Change the song number cell from a pause button to a play button
+        Change the HTML of the player bar's pause button to a play button
+        Pause the song  */
+
+
+var togglePlayFromPlayerBar = function () {
+        var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);  
+    if (currentSoundFile.isPaused()) {  // If it is paused it will be null which is true, so when play icon is clicked it turns the row icon and player bar to pause 
+        $currentlyPlayingCell.html(pauseButtonTemplate);
+        $(this).html(playerBarPauseButton);
+        currentSoundFile.play();
+    } else if (currentSoundFile) {
+        $currentlyPlayingCell.html(playButtonTemplate);
+        $(this).html(playerBarPlayButton);
+        currentSoundFile.pause();
+    }
+        
+};  
+
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
       var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
       var playerBarPlayButton = '<span class="ion-play"></span>';
@@ -220,6 +243,7 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
       var currentSongFromAlbum = null;
       var currentSoundFile = null;
       var currentVolume = 80;
+      var $playerBarButton = $('.main-controls .play-pause');
 
 
       var $previousButton = $('.main-controls .previous');
@@ -227,6 +251,7 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
  
     $(document).ready(function(){
         setCurrentAlbum(albumPicasso);
+        $playerBarButton.click(togglePlayFromPlayerBar);
         $previousButton.click(previousSong);
         $nextButton.click(nextSong);
  });
