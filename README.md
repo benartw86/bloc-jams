@@ -1,3 +1,5 @@
 # bloc-jams
 
-Creating an application for Bloc web developer part time program.  Studying and applying front end tools.
+A web application for displaying and playing music.  
+
+Front end features:  HTML5, CSS, Javascript and jQuery.
