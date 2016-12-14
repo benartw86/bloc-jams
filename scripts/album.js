@@ -34,7 +34,22 @@ var getSongNumberCell = function(number) {
     return $('.song-item-number[data-song-number="'+number+'"]');
 };
 
+var setCurrentTimeInPlayerBar = function(currentTime) {
+    $('.current-time').text(currentTime);
+};
 
+var setTotalTimeInPlayerBar = function(totalTime) {
+    $('.total-time').text(filterTimeCode(totalTime));
+};
+
+
+var filterTimeCode =  function(timeInSeconds) {
+    var seconds = Math.floor(parseFloat(timeInSeconds % 60));
+    var minutes = Math.floor(timeInSeconds / 60);
+    var filtered_time = minutes + ':';
+    filtered_time += (seconds < 10) ? '0' + seconds : seconds;
+    return filtered_time;
+};
 
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
@@ -42,7 +57,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
             //To revert the play button back to the song's number, we need to store the number before the user gets a chance to mouse over the row. Use HTML5 data attributes. HTML data attributes allow us to store information in an attribute on an HTML element.
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
       + '</tr>'
      ;
 
@@ -139,14 +154,16 @@ var setCurrentAlbum = function(album) {
  var updateSeekBarWhileSongPlays = function() {
      if (currentSoundFile) {
          // #10
-         currentSoundFile.bind('timeupdate', function(event) {
+         
+             currentSoundFile.bind('timeupdate', function(event) {
              // #11
              var seekBarFillRatio = this.getTime() / this.getDuration();
              var $seekBar = $('.seek-control .seek-bar');
- 
              updateSeekPercentage($seekBar, seekBarFillRatio);
+             setCurrentTimeInPlayerBar(filterTimeCode(this.getTime()));     
          });
      }
+     
  };
 
  var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
@@ -173,7 +190,7 @@ var setCurrentAlbum = function(album) {
          // #4
          var seekBarFillRatio = offsetX / barWidth;
          
-         if($(this).parent().attr('class') == '.seek-control') {
+         if($(this).parent().attr('class') == 'seek-control') {
              seek(seekBarFillRatio * currentSoundFile.getDuration());
          } else {
              setVolume(seekBarFillRatio * 100);
@@ -188,15 +205,15 @@ var setCurrentAlbum = function(album) {
          var $seekBar = $(this).parent();
  
          // #9
-         $(document).bind('mousemove.thumb', function(event){       //using bind as an event handler we attach mousemove to document so even if your mouse leaves                                                                   the seek bar it will still be able to move the ball
+         $(document).bind('mousemove.thumb', function(event){       //using bind as an event handler we attach mousemove to document so even if your mouse leaves the seek bar it will still be able to move the ball
              var offsetX = event.pageX - $seekBar.offset().left;
              var barWidth = $seekBar.width();
              var seekBarFillRatio = offsetX / barWidth;
              
-             if($(this).parent().attr('class') == '.seek-control') {
+             if($seekBar.parent().attr('class') == 'seek-control') {
              seek(seekBarFillRatio * currentSoundFile.getDuration());
              } else {
-             setVolume(seekBarFillRatio * 100);
+             setVolume(seekBarFillRatio);
          }
  
              updateSeekPercentage($seekBar, seekBarFillRatio);
@@ -218,6 +235,7 @@ var updatePlayerBarSong = function() {
     $('.currently-playing .artist-name').text(currentAlbum.artist);
     $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
     $('.main-controls .play-pause').html(playerBarPauseButton);
+      setTotalTimeInPlayerBar(currentSongFromAlbum.length);
  };
 
 
@@ -311,6 +329,7 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
       var currentSongFromAlbum = null;
       var currentSoundFile = null;
       var currentVolume = 80;
+      var currentSongDuration = null;
 
 
       var $previousButton = $('.main-controls .previous');
